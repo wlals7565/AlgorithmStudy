@@ -1,0 +1,41 @@
+# 실행 파일 무시
+*.exe
+*.out
+
+# 라이브러리 파일 무시
+*.a
+*.lib
+
+# 빌드 디렉토리 및 임시 파일 무시
+/build/
+/bin/
+/obj/
+*.o
+*.obj
+
+# CMake, Make, Visual Studio 등 빌드 시 생성되는 디렉토리 무시
+/CMakeFiles/
+/CMakeCache.txt
+/CMakeScripts/
+/cmake_install.cmake
+/Makefile
+/CMakeLists.txt.user
+/.vscode/
+/.idea/
+
+# 로그 파일 및 디버그 파일 무시
+*.log
+*.log.*
+*.debug
+*.pdb
+
+# 사용자 및 환경 설정 파일 무시
+.user
+.suo
+.userprefs
+.vscode/
+.idea/
+
+# 빌드 도구 설정 파일 무시
+CMakeLists.txt.user
+CMakeCache.txt
