@@ -71,3 +71,37 @@ void sortByInsertion(int* array, int size)
 		}
 	}
 }
+
+void sortByQuick(int* array, int start, int end)
+{
+	if (start < end) {
+		int pivotidx = partioning(array, start, end); //피봇은 인덱스를 받습니다.
+		sortByQuick(array, start, pivotidx);
+		sortByQuick(array, pivotidx + 1, end);
+	}
+}
+
+int partioning(int* array, int start, int end) //피봇값이 있는 인덱스를 반환합니다.
+{
+	int temp;
+	int pivot = array[start];
+	int startidx = start+1;
+	int endidx = end - 1;
+	while(startidx<endidx){
+		while (array[startidx] < pivot) {
+			startidx++;
+		}
+		while (array[endidx] > pivot) {
+			endidx--;
+		}
+		if (startidx < endidx) {
+			temp = array[startidx];
+			array[startidx] = array[endidx];
+			array[endidx] = temp;
+		}
+	}
+	temp = array[start];
+	array[start] = array[endidx];
+	array[endidx] = temp;
+	return endidx;
+}
