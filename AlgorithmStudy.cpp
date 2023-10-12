@@ -49,3 +49,25 @@ void sortByBubble(int* array, int size)
 		}
 	}
 }
+
+//삽입 정렬 함수 sortByInsertion을 정의하였습니다.
+void sortByInsertion(int* array, int size)
+{
+	// for문을 이용해 index 1 부터 시작해서 index n까지 정렬합니다. index 1부터 시작하는 이유는 삽입정렬은 선택된 값 왼쪽 값들과 비교해서 위치를 정하는데
+	// index 0값은 비교할 왼쪽 값이 없기 때문입니다.
+	for (int i = 1; i < size; i++) {
+		//임시적으로 현재 선택한 값을 temp에 저장합니다.
+		int temp = array[i];
+		//for문을 이용해 왼쪽 인덱스에 있는 값들을 차례대로 비교해가며 만약 temp값보다 크다면 index에 1을 더한 위치에 값을 옮깁니다.
+		//만약 크지 않은 값을 만났다면 for문을 탈출하고 임시적으로 저장한 값을 크지 않은 값 index에 1을 더한 위치에 넣습니다.
+		for (int j = i; j > 0; j--) {
+			if (temp < array[j - 1]) {
+				array[j] = array[j - 1];
+			}
+			else {
+				array[j] = temp;
+				break;
+			}
+		}
+	}
+}
