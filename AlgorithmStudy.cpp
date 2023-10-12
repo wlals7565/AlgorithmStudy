@@ -72,10 +72,15 @@ void sortByInsertion(int* array, int size)
 	}
 }
 
+
+//퀵 정렬 함수 sortByQuick을 정의하였습니다.
 void sortByQuick(int* array, int start, int end)
 {
+	//경계 조건으로 인덱스 start가 인덱스 end보다 작아야 합니다.
 	if (start < end) {
-		int pivotidx = partioning(array, start, end); //피봇은 인덱스를 받습니다.
+		//partioning함수를 통해 피봇 값을 기준으로 작은 값은 피봇 왼쪽 부분배열에 큰 값은 피봇 오른쪽 부분배열에 들어가게 만들고 피봇의 인덱스를 반환합니다.
+		int pivotidx = partioning(array, start, end); //피봇의 인덱스를 저장하고 있습니다.
+		//재귀적으로 피봇을 기준으로 왼쪽 부분 배열과 오른쪽 부분배열에 대해 sortByQuick함수를 통해 퀵정렬하고 있습니다.
 		sortByQuick(array, start, pivotidx);
 		sortByQuick(array, pivotidx + 1, end);
 	}
@@ -83,23 +88,34 @@ void sortByQuick(int* array, int start, int end)
 
 int partioning(int* array, int start, int end) //피봇값이 있는 인덱스를 반환합니다.
 {
+	//temp는 값을 바꿀때 임시적으로 값을 저장하는 변수입니다.
 	int temp;
+	//피봇 값은 정렬하고자 하는 부분 배열의 맨 앞의 값으로 설정했습니다.
 	int pivot = array[start];
+	//startidx는 부분 배열에서 정렬을 시작하는 앞 부분입니다.
 	int startidx = start+1;
+	//endidx는 부분 배열에서 정렬을 시작하는 뒷 부분입니다.
 	int endidx = end - 1;
+	//while문을 통해 왼쪽에는 피봇보다 작은 값을 오른쪽에는 피봇 보다 큰 값이 위치하게 만듭니다.
 	while(startidx<endidx){
+		//맨 앞 피봇값을 제외한 부분배열에서부터 오른쪽으로 한 칸 씩 이동하면서 피봇보다 큰 값을 찾습니다.
 		while (array[startidx] < pivot) {
 			startidx++;
 		}
+		//맨 뒤에서부터 왼쪽으로 한 칸 씩 이동하면서 피봇보다 작은 값을 찾습니다.
 		while (array[endidx] > pivot) {
 			endidx--;
 		}
+		//왼쪽에서 피봇보다 큰 값과 오른쪽에서 피봇보다 작은 값을 찾은 이후
+		//startidx와 endidx를 비교해 서로가 교차한 적이 없다면 두 값의 위치를 바꿉니다.
 		if (startidx < endidx) {
 			temp = array[startidx];
 			array[startidx] = array[endidx];
 			array[endidx] = temp;
 		}
 	}
+	//피봇값을 제외한 모든 값들이 피봇값을 기준으로 작은 값은 왼쪽 큰 값은 오른쪽에 위치한다면
+	//마지막으로 작은 값들 중 가장 왼쪽에 있는 값과 피봇 값의 위치를 바꿉니다.
 	temp = array[start];
 	array[start] = array[endidx];
 	array[endidx] = temp;
