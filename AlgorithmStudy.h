@@ -8,3 +8,7 @@ void sortByInsertion(int*, int);
 void sortByQuick(int*, int, int);
 
 int partioning(int*, int, int);
+
+void sortByMerge(int*, int, int);
+
+void merge(int*, int, int);

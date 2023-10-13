@@ -81,12 +81,13 @@ void sortByQuick(int* array, int start, int end)
 		//partioning함수를 통해 피봇 값을 기준으로 작은 값은 피봇 왼쪽 부분배열에 큰 값은 피봇 오른쪽 부분배열에 들어가게 만들고 피봇의 인덱스를 반환합니다.
 		int pivotidx = partioning(array, start, end); //피봇의 인덱스를 저장하고 있습니다.
 		//재귀적으로 피봇을 기준으로 왼쪽 부분 배열과 오른쪽 부분배열에 대해 sortByQuick함수를 통해 퀵정렬하고 있습니다.
-		sortByQuick(array, start, pivotidx);
+		sortByQuick(array, start, pivotidx-1);
 		sortByQuick(array, pivotidx + 1, end);
 	}
 }
 
-int partioning(int* array, int start, int end) //피봇값이 있는 인덱스를 반환합니다.
+// 피봇값을 설정하고 그 값을 기준으로 퀵 정렬을 수행하며 피봇이 있는 인덱스를 반환합니다..
+int partioning(int* array, int start, int end) 
 {
 	//temp는 값을 바꿀때 임시적으로 값을 저장하는 변수입니다.
 	int temp;
@@ -95,7 +96,7 @@ int partioning(int* array, int start, int end) //피봇값이 있는 인덱스를 반환합니
 	//startidx는 부분 배열에서 정렬을 시작하는 앞 부분입니다.
 	int startidx = start+1;
 	//endidx는 부분 배열에서 정렬을 시작하는 뒷 부분입니다.
-	int endidx = end - 1;
+	int endidx = end;
 	//while문을 통해 왼쪽에는 피봇보다 작은 값을 오른쪽에는 피봇 보다 큰 값이 위치하게 만듭니다.
 	while(startidx<endidx){
 		//맨 앞 피봇값을 제외한 부분배열에서부터 오른쪽으로 한 칸 씩 이동하면서 피봇보다 큰 값을 찾습니다.
@@ -120,4 +121,65 @@ int partioning(int* array, int start, int end) //피봇값이 있는 인덱스를 반환합니
 	array[start] = array[endidx];
 	array[endidx] = temp;
 	return endidx;
+}
+
+//병합 정렬 함수 sortByMerge을 정의하였습니다
+void sortByMerge(int* array, int start, int end)
+{	
+	//경계 조건으로 start가 end보다 작아야 함수를 실행합니다.
+	if(start<end){ 
+		//배열을 분활하기 위해 중간값인 middle를 선언했습니다.
+		int middle = (end + start) / 2;
+		//배열을 miidle를 통해 2개의 부분배열로 나누고 각 부분배열에 대해 재귀적으로 병합 정렬 함수 sortByMerge를 호출하고 있습니다.
+		sortByMerge(array, start, middle);
+		sortByMerge(array, middle+1, end);
+		//merge함수는 start부터 end까지의 값들을 순서대로 정렬하는 역할을 합니다.
+		merge(array, start, end);
+	}
+	else {
+		return;
+	}
+}
+
+//merge는 start부터 end까지의 인덱스 값들을 순서대로 정렬합니다.
+void merge(int* array, int start, int end)
+{
+	//start부터 end까지 있는 값의 수 만큼 동적으로 배열을 할당합니다.
+	int* temparray = new int[end-start+1]; 
+	//여기서 middle는 왼쪽 부분배열의 끝을 가리킵니다.
+	int middle = (start + end) / 2;
+	//idx는 temparray에 값을 저장할 때 인덱스 값으로 쓰입니다.
+	int idx = 0;
+	//startidx1과 startIdx2는 각각 왼쪽 부분배열의 맨 앞 인덱스 오른쪽 부분배열의 맨 뒤 인덱스를 가리킵니다.
+	int startIdx1 = start;
+	int startIdx2 = middle+1;
+	//while문을 통해 startIdx1과 startIdx2가 각각이 해당하는 부분배열의 끝을 넘지 않았다면 아래 과정을 반복합니다.
+	while (startIdx1 <= middle && startIdx2 <= end) {//
+		//만약 startIdx1 인덱스에 있는 값이 startIdx2 인덱스에 있는 값보다 작다면 temparray에 startIdx2에 있는 값을 넣고 idx와 startIdx1의 값을 1올립니다.
+		if (array[startIdx1] < array[startIdx2]) {
+			temparray[idx++] = array[startIdx1++];
+		}
+		//만약 startIdx2 인덱스에 있는 값이 startIdx1 인덱스에 있는 값보다 작다면 temparray에 startIdx2에 있는 값을 넣고 idx와 startIdx1의 값을 1올립니다.
+		else {
+			temparray[idx++] = array[startIdx2++];
+		}
+	}
+	//위의 while문이 완료될 경우 부분배열 중 한개는 아직 값을 다 temparray에 저장하지 않았기 때문에
+	//if문을 통해 아직 모든 값을 저장하지 않은 부분배열의 값들을 저장해줍니다.
+	if (startIdx1 <= middle) {
+		while (startIdx1 <= middle) {
+			temparray[idx++] = array[startIdx1++];
+		}
+	}
+	else {
+		while (startIdx2 <= end) {
+			temparray[idx++] = array[startIdx2++];
+		}
+	}
+	//위 작업이 끝나며 temparray에 정렬된 부분 배열을 가지게 될 텐데 이 정렬된 부분 배열을 전체 배열인 array에 적용합니다.
+	for (int i = start, idx =0 ; i <= end; i++, idx++) {
+		array[i] = temparray[idx];
+	}
+	//temparray의 할당을 해제합니다.
+	delete[] temparray;
 }
