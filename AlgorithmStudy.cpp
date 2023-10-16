@@ -183,3 +183,60 @@ void merge(int* array, int start, int end)
 	//temparray의 할당을 해제합니다.
 	delete[] temparray;
 }
+
+//배열을 힙으로 만드는 함수 heapify를 정의합니다.
+//최소힙으로 구성합니다.
+void heapify(int* array, int start, int end)
+{
+	bool haveLeftChild = false;
+	bool haveRightChild = false;
+	int temp;
+	//해당 원소가 왼쪽 자식을 가지고 있다면 이를 알리기 위한 값입니다.
+	if (start * 2 <= end) {
+		haveLeftChild = true;
+	}
+	//해당 원소가 오른쪽 자식을 가지고 있다면 이를 알리기 위한 값입니다.
+	if (start * 2 + 1 <= end) {
+		haveRightChild = true;
+	}
+	//왼쪽 자식과 오른쪽 자식이 있을 경우
+	if (haveLeftChild == true && haveRightChild == true) {
+		//자식 중에 더 작은 값을 가진고 있을 경우 
+		if (array[start] > array[start * 2] || array[start]>array[start*2+1]) {
+			//자식 중에 왼쪽 자식이 최소값인 경우
+			if (array[start * 2] < array[start * 2 + 1]) {
+				temp = array[start];
+				array[start] = array[start * 2];
+				array[start * 2] = temp;
+				heapify(array, start * 2, end);
+			}
+			//자식 중에 오른쪽 자식이 최소값인 경우
+			else {
+				temp = array[start];
+				array[start] = array[start * 2 + 1];
+				array[start * 2 + 1] = temp;
+				heapify(array, start * 2 + 1, end);
+			}
+		}
+		//자식 중에 최솟값을 가진애가 없을 경우 아무것도 안함.
+		else {
+			return;
+		}
+	}
+	//왼쪽 자식만 있을 경우
+	else if (haveLeftChild == true && haveRightChild == false) {
+		//왼쪽 자식이 더 작은 값을 가지고 있을 경우
+		if (array[start] > array[start * 2]) {
+			temp = array[start];
+			array[start] = array[start * 2];
+			array[start * 2] = temp;
+			heapify(array, start * 2, end);
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		return;
+	}
+}
