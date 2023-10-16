@@ -240,3 +240,29 @@ void heapify(int* array, int start, int end)
 		return;
 	}
 }
+
+//이진 탐색 함수 binarySearch를 정의합니다.
+int binarySearch(int* array, int start, int end, int searchNum)
+{
+	//만약 start값이 end보다 크다면 실행하지 않습니다.
+	if(start<=end){
+		//배열의 중간을 가리키는 middle 변수를 선언합니다.
+		int middle = (start + end) / 2;
+		//인덱스 middle인 값이 searchNum과 값이 같다면 middle를 반환합니다.
+		if (array[middle] == searchNum) {
+			return middle;
+		}
+		//인덱스 middle인 값이 searchNum보다 작다면 middle+1부터 end까지의 범위에 다시 재귀적으로 이진탐색을 합니다.
+		else if (array[middle] < searchNum) {
+			return binarySearch(array, middle + 1, end, searchNum);
+		}
+		//인덱스 middle인 값이 searchNum보다 크다면 middle-1부터 start까지의 범위에 다시 재귀적으로 이진탐색을 합니다.
+		else if (array[middle] > searchNum) {
+			return binarySearch(array, start, middle - 1,searchNum);
+		}
+	}
+	//만약 값을 찾지 못하면 -999를 반환합니다.
+	else {
+		return -999;
+	}
+}

@@ -14,3 +14,5 @@ void sortByMerge(int*, int, int);
 void merge(int*, int, int);
 
 void heapify(int*, int, int);
+
+int binarySearch(int*, int, int, int);
