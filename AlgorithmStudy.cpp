@@ -98,9 +98,9 @@ int partioning(int* array, int start, int end)
 	//endidx는 부분 배열에서 정렬을 시작하는 뒷 부분입니다.
 	int endidx = end;
 	//while문을 통해 왼쪽에는 피봇보다 작은 값을 오른쪽에는 피봇 보다 큰 값이 위치하게 만듭니다.
-	while(startidx<endidx){
+	while(startidx<=endidx){
 		//맨 앞 피봇값을 제외한 부분배열에서부터 오른쪽으로 한 칸 씩 이동하면서 피봇보다 큰 값을 찾습니다.
-		while (array[startidx] < pivot) {
+		while (array[startidx] < pivot ) {
 			startidx++;
 		}
 		//맨 뒤에서부터 왼쪽으로 한 칸 씩 이동하면서 피봇보다 작은 값을 찾습니다.
@@ -114,9 +114,11 @@ int partioning(int* array, int start, int end)
 			array[startidx] = array[endidx];
 			array[endidx] = temp;
 		}
+	
 	}
 	//피봇값을 제외한 모든 값들이 피봇값을 기준으로 작은 값은 왼쪽 큰 값은 오른쪽에 위치한다면
 	//마지막으로 작은 값들 중 가장 왼쪽에 있는 값과 피봇 값의 위치를 바꿉니다.
+	//여기가 잘못되었다.
 	temp = array[start];
 	array[start] = array[endidx];
 	array[endidx] = temp;
@@ -262,6 +264,26 @@ int binarySearch(int* array, int start, int end, int searchNum)
 		}
 	}
 	//만약 값을 찾지 못하면 -999를 반환합니다.
+	else {
+		return -999;
+	}
+}
+//nthNum번째로 작은 값을 구하는 함수 selectionByQuick을 정의합니다.
+int selectionByQuick(int* array, int start, int end, int nthNum)
+{
+	if (start <= end) {
+		int pivotIdx = partioning(array, start, end);
+		if (pivotIdx == nthNum - 1) {
+			// nthNum번째 값을 반환합니다.
+			return array[pivotIdx];
+		}
+		else if (pivotIdx > nthNum - 1) {
+			return selectionByQuick(array, start, pivotIdx - 1, nthNum);
+		}
+		else {
+			return selectionByQuick(array, pivotIdx + 1, end, nthNum);
+		}
+	}
 	else {
 		return -999;
 	}

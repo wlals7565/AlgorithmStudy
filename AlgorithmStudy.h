@@ -16,3 +16,5 @@ void merge(int*, int, int);
 void heapify(int*, int, int);
 
 int binarySearch(int*, int, int, int);
+
+int selectionByQuick(int*, int, int, int);
