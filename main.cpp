@@ -2,9 +2,11 @@
 #include "AlgorithmStudy.h"
 
 int main() {
-	int array[10] = { 10,4,3,7,5,1,2,6,8,9 };
-	int start = 0;
-	int end = 9;
-	int nthNum = 7;
-	std::cout << selectionByQuick(array, start, end, nthNum);
+	binaryTree biTree;
+	biTree.insertNum(5);
+	biTree.insertNum(4);
+	biTree.insertNum(6);
+	biTree.printTree();
+	std::cout << std::endl <<biTree.searchNum(6)<< ", "<< biTree.searchNum(7);
+
 }

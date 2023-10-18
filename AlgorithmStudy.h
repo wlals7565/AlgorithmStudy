@@ -18,3 +18,15 @@ void heapify(int*, int, int);
 int binarySearch(int*, int, int, int);
 
 int selectionByQuick(int*, int, int, int);
+
+class binaryTree {
+	int value;
+	binaryTree* leftChild;
+	binaryTree* rightChild;
+public:
+	binaryTree();
+	void insertNum(int);
+	void deleteNum(int);
+	bool searchNum(int);
+	void printTree();
+};

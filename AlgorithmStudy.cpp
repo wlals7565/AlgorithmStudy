@@ -272,19 +272,110 @@ int binarySearch(int* array, int start, int end, int searchNum)
 int selectionByQuick(int* array, int start, int end, int nthNum)
 {
 	if (start <= end) {
+		//partioning을 통해 피봇의 인덱스를 얻습니다.
 		int pivotIdx = partioning(array, start, end);
+		//피봇의 인덱스와 nthNum-1이 같다면 피봇이 nthNum번째 수이기 때문에 array[pivot]을 반환합니다.
 		if (pivotIdx == nthNum - 1) {
 			// nthNum번째 값을 반환합니다.
 			return array[pivotIdx];
 		}
+		//피봇의 인덱스가 nthNum-1보다 크다면 피봇 기준 오른쪽에 찾고자 하는 nthNum번째 값이 있기 때문에 해당 부분 배열만 재귀적으로 selectionByQuick함수를 사용합니다.
 		else if (pivotIdx > nthNum - 1) {
 			return selectionByQuick(array, start, pivotIdx - 1, nthNum);
 		}
+		//피봇의 인덱스가 nthNum-1보다 작다면 피봇 기준 왼쪽에 찾고자 하는 nthNum번째 값이 있기 때문에 해당 부분 배열만 재귀적으로 selectionByQuick함수를 사용합니다.
 		else {
 			return selectionByQuick(array, pivotIdx + 1, end, nthNum);
 		}
 	}
+	//nthNum번째 값을 찾지 못하면 -1을 반환합니다.
 	else {
-		return -999;
+		return -1;
 	}
 }
+binaryTree:: binaryTree() {
+		this->value = NULL;
+		this->leftChild = nullptr;
+		this->rightChild = nullptr;
+	}
+
+	void binaryTree::insertNum(int num)
+	{
+		if (this->value == NULL) {
+			this->value = num;
+			return;
+		}
+		else if (this->value > num) {
+			if (this->leftChild == nullptr) {
+				binaryTree* temp = new binaryTree();
+				this->leftChild = temp;
+				this->leftChild->insertNum(num);
+				return;
+			}
+			else {
+				this->leftChild->insertNum(num);
+				return;
+			}
+		}
+		else if (this->value < num) {
+			if (this->rightChild == nullptr) {
+				binaryTree* temp = new binaryTree();
+				this->rightChild = temp;
+				this->rightChild->insertNum(num);
+				return;
+			}
+			else {
+				this->rightChild->insertNum(num);
+				return;
+			}
+		}
+		else {
+			return;
+		}
+	}
+
+	void binaryTree::deleteNum(int num)
+	{
+		return;
+	}
+
+	bool binaryTree::searchNum(int num)
+	{
+		if (this->value == num) {
+			return true;
+		}
+		else if (this->value > num) {
+			if (this->leftChild == nullptr) {
+				return false;
+			}
+			else {
+				return this->leftChild->searchNum(num);
+			}
+
+		}
+		else if (this->value < num) {
+			if (this->rightChild == nullptr) {
+				return false;
+			}
+			else {
+				return this->rightChild->searchNum(num);
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+	void binaryTree::printTree() {
+		//레벨 순회 구현해야함
+		// 큐 만들어야 하고
+		if(this->value != NULL){
+			std::cout << this->value;
+		}
+		if (this->leftChild != nullptr) {
+			this->leftChild->printTree();
+		}
+		if (this->rightChild != nullptr) {
+			this->rightChild->printTree();
+		}
+	}
