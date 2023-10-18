@@ -336,6 +336,182 @@ binaryTree:: binaryTree() {
 
 	void binaryTree::deleteNum(int num)
 	{
+		binaryTree* parentNode = nullptr;
+		binaryTree* childNode = this;
+		// isRight는 parentNode기준 child노드가 오른쪽 자식인지 아닌지를 알려주는 값임.
+		bool isRight;
+		//가장 최상위 노드를 삭제해야 한다면 parentNode 는 nullptr이 된다 이걸 이용하자
+		//가장 최상위 노드가 아니라는 가정으로 먼저 코드를 만들다
+		//현재 노드에 값이 삭제하고자 하는 값과 같지 않다면 값을 찾거나 값이 없다는 것을 확인할 때까지 반복한다.
+		while (childNode->value != num) { 
+			//현재 값이 찾고자 하는 값보다 크다면 왼쪽 서브 트리에서 값을 찾아야 한다.
+			if (childNode->value > num && childNode->leftChild !=nullptr) {
+				isRight = false;
+				parentNode = childNode;
+				childNode = childNode->leftChild;
+			}
+			//현재 값이 찾고자 하는 값보다 작다면 오른쪽 서브 트리에서 값을 찾아야 한다.
+			else if(childNode->value < num && childNode->rightChild !=nullptr){
+				isRight = true;
+				parentNode = childNode;
+				childNode = childNode->rightChild;
+			}
+			else {
+				//값이 없어서 못 찾음.
+				return;
+			}
+		}
+		//삭제하고자 하는 값을 찾음
+		//삭제 작업 시작
+		//삭제하고 하는 값이 리프노드여서 자식이 없다면
+		if(parentNode != nullptr){
+			if (childNode->leftChild == nullptr && childNode->rightChild == nullptr) {
+				if (isRight) {
+					parentNode->rightChild = nullptr;
+					delete childNode;
+					return;
+				}
+				else {
+					parentNode->leftChild = nullptr;
+					delete childNode;
+					return;
+				}
+			}
+			//삭제하고자 하는 값이 왼쪽 자식만 가지고 있다면
+			else if(childNode->leftChild != nullptr && childNode->rightChild == nullptr) {
+				if (isRight) {
+					parentNode->rightChild = childNode->leftChild;
+					delete childNode;
+					return;
+				}
+				else {
+					parentNode->leftChild = childNode->leftChild;
+					delete childNode;
+					return;
+				}
+			}
+			//삭제하고자 하는 값이 오른쪽 자식만 가지고 있다면
+			else if (childNode->leftChild == nullptr && childNode->rightChild != nullptr) {
+				if (isRight) {
+					parentNode->rightChild = childNode->rightChild;
+					delete childNode;
+					return;
+				}
+				else {
+					parentNode->leftChild = childNode->rightChild;
+					delete childNode;
+					return;
+				}
+			}
+			//삭제하고자 하는 값이 왼쪽 오른쪽 자식 다 가지고 있다면
+			else {
+				binaryTree* changeNode = childNode->leftChild;
+				binaryTree* parentChangeNode = nullptr;
+				while (changeNode->rightChild != nullptr) {
+					parentChangeNode = changeNode;
+					changeNode = changeNode->rightChild;
+				}
+				//왼쪽 서브트리의 가장 큰 값이 childNode왼쪽 자식일 경우
+				if (childNode->leftChild == changeNode) {
+					if (isRight) {
+						parentNode->rightChild = changeNode;
+						changeNode->rightChild = childNode->rightChild;
+						delete childNode;
+						return;
+					}
+					else {
+						parentNode->leftChild = changeNode;
+						changeNode->rightChild = childNode->rightChild;
+						delete childNode;
+						return;
+					}
+				}
+				//왼쪽 서브트리의 가장 큰 값이 childNode의 왼쪽 자식이 아닐경우
+				else {
+					//바꾸고자 하는 changeNode의 왼쪽 자식이 없는 경우
+					if (changeNode->leftChild == nullptr) {
+						childNode->value = changeNode->value;
+						parentChangeNode->rightChild = nullptr;
+						delete changeNode;
+						return;
+					}
+					//바꾸고자 하는 changeNode의 왼쪽 자식이 있는 경우
+					else {
+						childNode->value = changeNode->value;
+						parentChangeNode->rightChild = changeNode->leftChild;
+						delete changeNode;
+						return;
+					}
+				}
+			}
+		}
+		//제거하고자 하는 값이 최상위 루트 노드에 있었다면
+		else {
+			if (childNode->leftChild == nullptr && childNode->rightChild == nullptr) {
+				childNode->value = NULL;
+				childNode->leftChild = nullptr;
+				childNode->rightChild = nullptr;
+				return;
+			}
+			else if (childNode->leftChild != nullptr && childNode->rightChild == nullptr)
+			{
+				binaryTree* temp = childNode->leftChild;
+				childNode->value = childNode->leftChild->value;
+				childNode->leftChild = childNode->leftChild->leftChild;
+				childNode->leftChild = childNode->leftChild->rightChild;
+				delete temp;
+				return;
+			}
+			else if (childNode->leftChild == nullptr && childNode->rightChild != nullptr) {
+				binaryTree* temp = childNode->rightChild;
+				childNode->value = childNode->rightChild->value;
+				childNode->leftChild = childNode->rightChild->leftChild;
+				childNode->leftChild = childNode->rightChild->rightChild;
+				delete temp;
+				return;
+			}
+			//여기 다시 볼 필요가 있다.
+			else {
+				binaryTree* changeNode = childNode->leftChild;
+				binaryTree* parentChangeNode = nullptr;
+				while (changeNode->rightChild != nullptr) {
+					parentChangeNode = changeNode;
+					changeNode = changeNode->rightChild;
+				}
+				//왼쪽 서브트리의 가장 큰 값이 childNode왼쪽 자식일 경우******************************************* 특히 여기
+				if (childNode->leftChild == changeNode) {
+					if (isRight) {
+						parentNode->rightChild = changeNode;
+						changeNode->rightChild = childNode->rightChild;
+						delete childNode;
+						return;
+					}
+					else {
+						parentNode->leftChild = changeNode;
+						changeNode->rightChild = childNode->rightChild;
+						delete childNode;
+						return;
+					}
+				}
+				//왼쪽 서브트리의 가장 큰 값이 childNode의 왼쪽 자식이 아닐경우
+				else {
+					//바꾸고자 하는 changeNode의 왼쪽 자식이 없는 경우
+					if (changeNode->leftChild == nullptr) {
+						childNode->value = changeNode->value;
+						parentChangeNode->rightChild = nullptr;
+						delete changeNode;
+						return;
+					}
+					//바꾸고자 하는 changeNode의 왼쪽 자식이 있는 경우
+					else {
+						childNode->value = changeNode->value;
+						parentChangeNode->rightChild = changeNode->leftChild;
+						delete changeNode;
+						return;
+					}
+				}
+			}
+		}
 		return;
 	}
 
