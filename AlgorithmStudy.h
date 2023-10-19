@@ -30,3 +30,15 @@ public:
 	bool searchNum(int);
 	void printTree();
 };
+
+class StaticQueue {
+	int* array;
+	int start;
+	int end;
+public:
+	StaticQueue();
+	void insert(int);
+	int pop();
+	void reset();
+	bool isEmpty();
+};

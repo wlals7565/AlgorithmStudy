@@ -9,5 +9,8 @@ int main() {
 	biTree.printTree();
 	biTree.deleteNum(4);
 	biTree.printTree();
+	biTree.deleteNum(6);
+	biTree.deleteNum(7);
+	biTree.printTree();
 
 }
