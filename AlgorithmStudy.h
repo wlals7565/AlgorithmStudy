@@ -30,7 +30,7 @@ public:
 	bool searchNum(int);
 	void printTree();
 };
-
+/*
 class StaticQueue {
 	int* array;
 	int start;
@@ -42,3 +42,4 @@ public:
 	void reset();
 	bool isEmpty();
 };
+*/

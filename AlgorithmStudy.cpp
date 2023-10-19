@@ -453,24 +453,27 @@ binaryTree:: binaryTree() {
 				childNode->rightChild = nullptr;
 				return;
 			}
+			//왼쪽 자식만 있다면
 			else if (childNode->leftChild != nullptr && childNode->rightChild == nullptr)
 			{
 				binaryTree* temp = childNode->leftChild;
 				childNode->value = childNode->leftChild->value;
 				childNode->leftChild = childNode->leftChild->leftChild;
-				childNode->leftChild = childNode->leftChild->rightChild;
+				childNode->rightChild = childNode->leftChild->rightChild;
 				delete temp;
 				return;
 			}
+			//오른쪽 자식만 있다면
 			else if (childNode->leftChild == nullptr && childNode->rightChild != nullptr) {
 				binaryTree* temp = childNode->rightChild;
 				childNode->value = childNode->rightChild->value;
 				childNode->leftChild = childNode->rightChild->leftChild;
-				childNode->leftChild = childNode->rightChild->rightChild;
+				childNode->rightChild = childNode->rightChild->rightChild;
 				delete temp;
 				return;
 			}
 			//여기 다시 볼 필요가 있다.
+			//자식 둘다 있다면
 			else {
 				binaryTree* changeNode = childNode->leftChild;
 				binaryTree* parentChangeNode = nullptr;
@@ -478,20 +481,12 @@ binaryTree:: binaryTree() {
 					parentChangeNode = changeNode;
 					changeNode = changeNode->rightChild;
 				}
-				//왼쪽 서브트리의 가장 큰 값이 childNode왼쪽 자식일 경우******************************************* 특히 여기
+				//왼쪽 서브트리의 가장 큰 값이 childNode왼쪽 자식일 경우
 				if (childNode->leftChild == changeNode) {
-					if (isRight) {
-						parentNode->rightChild = changeNode;
-						changeNode->rightChild = childNode->rightChild;
-						delete childNode;
-						return;
-					}
-					else {
-						parentNode->leftChild = changeNode;
-						changeNode->rightChild = childNode->rightChild;
-						delete childNode;
-						return;
-					}
+					binaryTree* temp = childNode->leftChild;
+					childNode->value = childNode->leftChild->value;
+					childNode->leftChild = childNode->leftChild->leftChild;
+					delete temp;
 				}
 				//왼쪽 서브트리의 가장 큰 값이 childNode의 왼쪽 자식이 아닐경우
 				else {
