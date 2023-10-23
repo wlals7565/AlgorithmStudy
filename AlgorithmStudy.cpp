@@ -298,37 +298,46 @@ binaryTree:: binaryTree() {
 		this->leftChild = nullptr;
 		this->rightChild = nullptr;
 	}
-
+	//이진트리에 값을 삽입하는 함수 insertNum입니다.
 	void binaryTree::insertNum(int num)
 	{
+		//해당 노드에 값이 존재하지 않으면 값을 삽입합니다.
+		//값을 삽입하기 이전에 아래 코드에서 노드를 새로 만들어 놓습니다.
 		if (this->value == NULL) {
 			this->value = num;
 			return;
 		}
+		//만약 삽입하고자 하는 값 num보다 현재 노드의 값이 크다면 왼쪽서브트리에 있어야 합니다. 
 		else if (this->value > num) {
+			//이때 왼쪽 자식이 nullptr이라면 노드를 생성하고 재귀적으로 insertNum을 호출해 값을 삽입해줍니다.
 			if (this->leftChild == nullptr) {
 				binaryTree* temp = new binaryTree();
 				this->leftChild = temp;
 				this->leftChild->insertNum(num);
 				return;
 			}
+			//왼쪽 자식이 있다면 왼쪽 자식에 대해 재귀적으로 insertNum을 호출해 찾고자 하는 값을 찾습니다.
 			else {
 				this->leftChild->insertNum(num);
 				return;
 			}
 		}
+		//만약 삽입하고자 하는 값 num보다 현재 노드의 값이 작다면 오른쪽서브트리에 있어야 합니다. 
 		else if (this->value < num) {
+			//이때 오른쪽 자식이 nullptr이라면 노드를 생성하고 재귀적으로 insertNum을 호출해 값을 삽입해줍니다
 			if (this->rightChild == nullptr) {
 				binaryTree* temp = new binaryTree();
 				this->rightChild = temp;
 				this->rightChild->insertNum(num);
 				return;
 			}
+			//오른쪽 자식이 있다면 오른쪽 자식에 대해 재귀적으로 insertNum을 호출해 찾고자 하는 값을 찾습니다.
 			else {
 				this->rightChild->insertNum(num);
 				return;
 			}
 		}
+		//아무 의미도 없는 구문입니다.
 		else {
 			return;
 		}
@@ -540,6 +549,7 @@ binaryTree:: binaryTree() {
 	void binaryTree::printTree() {
 		//레벨 순회 구현해야함
 		// 큐 만들어야 하고
+		//이거어렵네
 		if(this->value != NULL){
 			std::cout << this->value;
 		}
